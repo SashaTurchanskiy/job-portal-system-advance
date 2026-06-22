@@ -17,8 +17,15 @@
     <groupId>com.zosh.job</groupId>
     <artifactId>job-portal-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>Job Portal System</name>
     <description>AI based job Portal - Multi module Microservices System</description>
+
+    <modules>
+        <module>cloud</module>
+        <module>services</module>
+        <module>common-lib</module>
+    </modules>
 
     <properties>
         <java.version>17</java.version>
