@@ -6,7 +6,7 @@ import com.zosh.job.payload.SignupRequest;
 
 public interface AuthService {
 
-    AuthResponse signup(SignupRequest request);
+    AuthResponse signup(SignupRequest request) throws Exception;
 
     AuthResponse login(LoginRequest request);
 }
