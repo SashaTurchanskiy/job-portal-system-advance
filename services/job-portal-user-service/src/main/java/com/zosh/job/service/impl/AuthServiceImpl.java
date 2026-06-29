@@ -9,6 +9,7 @@ import com.zosh.job.repository.UserRepository;
 import com.zosh.job.service.AuthService;
 import domain.UserRole;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public AuthResponse signup(SignupRequest request) throws Exception {
@@ -30,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
         User user = User.builder()
                 .fullName(request.getFullName())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .roles(request.getRole())
                 .phone(request.getPhone())
                 .lastLogin(LocalDateTime.now())
