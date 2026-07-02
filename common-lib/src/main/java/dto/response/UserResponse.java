@@ -20,6 +20,7 @@ public class UserResponse {
     private String email;
     private String phone;
     private String profileName;
+    private String profileImage;
     private UserRole role;
     private UserStatus status;
     private LocalDateTime lastLogin;
