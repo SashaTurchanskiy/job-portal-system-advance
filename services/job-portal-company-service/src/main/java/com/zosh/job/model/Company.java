@@ -39,6 +39,10 @@ public class Company {
     private String logoUrl;
     private String coverImageUrl;
     private String websiteUrl;
+
+    private String email;
+    private String phone;
+
     private Integer foundedYear;
 
     @Enumerated(EnumType.STRING)
@@ -51,7 +55,7 @@ public class Company {
     private IndustryType industryType;
 
     @Enumerated(EnumType.STRING)
-    private CompanyStatus companyStatus;
+    private CompanyStatus status;
 
     @Column(unique = true)
     private String registrationNumber;
@@ -62,7 +66,7 @@ public class Company {
     @ElementCollection
     private List<SocialLink> socialLinks = new ArrayList<>();
 
-    private Boolean active = true;
+    private Boolean isActive = true;
 
     @CreationTimestamp
     @Column(updatable = false, nullable = false)

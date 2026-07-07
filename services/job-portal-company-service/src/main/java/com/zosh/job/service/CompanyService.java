@@ -11,11 +11,11 @@ import java.util.List;
 
 public interface CompanyService {
 
-    CompanyResponse createCompany(Long ownerId, CompanyRequest companyRequest);
+    CompanyResponse createCompany(Long ownerId, CompanyRequest companyRequest) throws Exception;
 
-    CompanyResponse getCompanyById(Long id);
+    CompanyResponse getCompanyById(Long id) throws Exception;
 
-    CompanyResponse getMyCompany(Long ownerId);
+    CompanyResponse getMyCompany(Long ownerId) throws Exception;
 
     List<CompanyResponse> getAllCompanies(CompanyType companyType, IndustryType industryType, CompanyStatus companyStatus);
 
@@ -27,5 +27,5 @@ public interface CompanyService {
 
     void deleteCompany(Long companyId);
 
-    Company getCompanyEntityById(Long id);
+    Company getCompanyEntityById(Long id) throws Exception;
 }
