@@ -1,5 +1,6 @@
 package com.zosh.job.service.impl;
 
+import com.zosh.job.mapper.CompMapper;
 import com.zosh.job.mapper.CompanyMapper;
 import com.zosh.job.model.Company;
 import com.zosh.job.model.SocialLink;
@@ -25,6 +26,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 
     private final CompanyRepository companyRepository;
+    private final CompMapper compMapper;
 
     @Override
     public CompanyResponse createCompany(Long ownerId, CompanyRequest companyRequest) throws Exception {
@@ -60,7 +62,9 @@ public class CompanyServiceImpl implements CompanyService {
                 .socialLinks(mapSocialLinks(companyRequest.getSocialLinks()))
                 .build();
 
-        return CompanyMapper.toResponse(companyRepository.save(company));
+        Company savedCompany = companyRepository.save(company);
+
+        return compMapper.toResponse(savedCompany);
     }
 
     private List<SocialLink> mapSocialLinks(List<SocialLinkResponse> socialLinks) {
@@ -115,22 +119,44 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public CompanyResponse updateCompany(Long companyId, Long ownerId, CompanyRequest request) {
+    public CompanyResponse updateCompany(Long companyId, Long ownerId, CompanyRequest request) throws Exception {
+        Company company = getCompanyEntityById(companyId);
+
+        if (!company.getName().equals(request.getName())){
+            companyRepository.existsByName(request.getName());
+        }
+        if (request.getRegistrationNumber() != null
+        && !request.getRegistrationNumber().equals(request.getRegistrationNumber())
+        && companyRepository.existsByRegistrationNumber(request.getRegistrationNumber())){
+            throw new Exception("Company registration number already exists. Please provide a different registration number.");
+        }
+
+        Company updatedCompany = compMapper.toEntity(request);
+        return compMapper.toResponse(companyRepository.save(updatedCompany));
+    }
+
+    @Override
+    public CompanyResponse verifyCompany(Long companyId) throws Exception {
+        Company company = getCompanyEntityById(companyId);
+        company.setIsActive(true);
+        company.setStatus(CompanyStatus.ACTIVE);
         return null;
     }
 
     @Override
-    public CompanyResponse verifyCompany(Long companyId) {
-        return null;
+    public CompanyResponse deactivateCompany(Long companyId) throws Exception {
+        Company company = getCompanyEntityById(companyId);
+        company.setIsActive(false);
+        company.setStatus(CompanyStatus.SUSPENDED);
+        return compMapper.toResponse(companyRepository.save(company));
     }
 
     @Override
-    public CompanyResponse deactivateCompany(Long companyId) {
-        return null;
-    }
-
-    @Override
-    public void deleteCompany(Long companyId) {
+    public void deleteCompany(Long companyId) throws Exception {
+        Company company = getCompanyEntityById(companyId);
+        company.setIsActive(false);
+        company.setStatus(CompanyStatus.REJECTED);
+        companyRepository.delete(company);
 
     }
 
