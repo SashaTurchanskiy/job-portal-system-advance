@@ -25,7 +25,9 @@ public interface CompanyService {
 
     CompanyResponse deactivateCompany(Long companyId) throws Exception;
 
-    void deleteCompany(Long companyId) throws Exception;
+    void deleteCompany(Long id, Long companyId) throws Exception;
 
     Company getCompanyEntityById(Long id) throws Exception;
+
+
 }

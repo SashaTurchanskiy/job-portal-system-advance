@@ -152,7 +152,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void deleteCompany(Long companyId) throws Exception {
+    public void deleteCompany(Long id, Long companyId) throws Exception {
         Company company = getCompanyEntityById(companyId);
         company.setIsActive(false);
         company.setStatus(CompanyStatus.REJECTED);
